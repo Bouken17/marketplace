@@ -11,8 +11,9 @@ public class Image {
 	private String name;
 	@Column
 	private String path;
-	@Column
-	private long idProduct;
+	@ManyToOne
+	@JoinColumn(name="product_id")
+	private Product product;
 
 	public void setId(long id) {
 		this.id = id;
@@ -38,9 +39,9 @@ public class Image {
 		return this.path;
 	}
 
-	public long getIdProduct() { return idProduct; }
+	public Product getProduct() { return product; }
 
-	public void setIdProduct(long idProduct) { this.idProduct = idProduct; }
+	public void setProduct(Product product) { this.product = product; }
 //	public int hashCode() {
 //		int lHashCode = 0;
 //		if ( this.name != null ) {

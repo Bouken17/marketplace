@@ -21,11 +21,6 @@ public class SocietyService {
         society.setName("Abdou@gmail.com");
         society.setNumero_tel("CIN1");
         society.setEmail("Laouali");
-        this.addSociety(society);
-    }
-
-
-    public Society addSociety(Society society) {
-        return this.societyrRepository.save(society);
+        this.societyrRepository.save(society);
     }
 }

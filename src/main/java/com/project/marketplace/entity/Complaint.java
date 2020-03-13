@@ -15,8 +15,9 @@ public class Complaint {
 	private String message;
 	@Column
 	private String email;
-	@Column
-	private Long idProduct;
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
 
 	public void setId(long id) {
 		this.id = id;
@@ -58,12 +59,12 @@ public class Complaint {
 		this.email = email;
 	}
 
-	public Long getIdProduct() {
-		return idProduct;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setIdProduct(Long idProduct) {
-		this.idProduct = idProduct;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	//	public int hashCode() {

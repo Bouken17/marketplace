@@ -9,31 +9,22 @@ import java.util.List;
 @Service
 public class ImageService {
     private final ImageRepository imageRepository;
+//    private final ProductService productService;
 
-    public ImageService(ImageRepository imageRepository) {
+    public ImageService(ImageRepository imageRepository, ProductService productService) {
         this.imageRepository = imageRepository;
-        this.initDB();
+//        this.productService = productService;
+//        this.initDB();
     }
-    private void initDB() {
-        Image image = new Image();
-        image.setName("image1");
-        image.setPath("chemin ");
-        image.setIdProduct(1);
-        this.addImage(image);
-    }
-    public Image getImage(Long id) {
-        return this.imageRepository.findById(id).orElseThrow();
-    }
-
-    public List<Image> getAllImages() {
-        return this.imageRepository.findAll();
-    }
-
-    public Image addImage(Image image) {
-        return this.imageRepository.save(image);
-    }
-
-    public void deleteImage(Long id) {
-        this.imageRepository.deleteById(id);
-    }
+//    private void initDB() {
+//        Image image = new Image();
+//        image.setName("image1");
+//        image.setPath("chemin ");
+//        image.setProduct(productService.getAllProducts().get(0));
+//        this.addImage(image);
+//    }
+//
+//    public Image addImage(Image image) {
+//        return this.imageRepository.save(image);
+//    }
 }

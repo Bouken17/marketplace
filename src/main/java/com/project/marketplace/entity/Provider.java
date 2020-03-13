@@ -3,6 +3,7 @@ package com.project.marketplace.entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+@Entity
 public class Provider {
 
     @Id

@@ -1,8 +1,7 @@
 package com.project.marketplace.entity;
 
-
 import javax.persistence.*;
-import java.util.ArrayList;
+
 
 
 @Entity
@@ -22,6 +21,9 @@ public class Product {
 	private long nombreVue;
 	@Column
 	private String marque;
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Provider provider;
 //	ArrayList<Image> posseder = new ArrayList<Image>();
 //	ArrayList<Complaint> reclamer = new ArrayList<Complaint>();
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();
@@ -58,7 +60,15 @@ public class Product {
 		return this.marque;
 	}
 
-//	public int hashCode() {
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
+	//	public int hashCode() {
 //		int lHashCode = 0;
 //		if ( this.name != null ) {
 //			lHashCode += this.name.hashCode();

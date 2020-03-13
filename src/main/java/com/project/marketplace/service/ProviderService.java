@@ -3,6 +3,7 @@ package com.project.marketplace.service;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Speciality;
+import com.project.marketplace.repository.ProductRepository;
 import com.project.marketplace.repository.ProviderRepository;
 import com.project.marketplace.repository.SpecialityRepository;
 import org.springframework.stereotype.Service;
@@ -12,25 +13,25 @@ public class ProviderService {
 
     private final ProviderRepository providerRepository;
     private final SpecialityRepository specialityRepository;
-    private  ProductService productService;
-    private SpecialityService specialityService;
+    private final ProductRepository productRepository;
 
-    public ProviderService(ProviderRepository providerRepository, SpecialityRepository specialityRepository) {
+    public ProviderService(ProviderRepository providerRepository, SpecialityRepository specialityRepository, ProductRepository productRepository) {
         this.providerRepository = providerRepository;
         this.specialityRepository = specialityRepository;
-        this.initDB();
+        this.productRepository = productRepository;
+//        this.initDB();
     }
 
-    private void initDB() {
-        Provider provider = new Provider();
-        provider.setFirstname("Abdou@gmail.com");
-        provider.setLastname("CIN1");
-        provider.setEmail("Laouali");
-        provider.setPassword("Mahaboubou");
-        provider.setStatus(1);
-        provider.setType(true);
-        this.updateProfil(provider);
-    }
+//    private void initDB() {
+//        Provider provider = new Provider();
+//        provider.setFirstname("Abdou@gmail.com");
+//        provider.setLastname("CIN1");
+//        provider.setEmail("Laouali");
+//        provider.setPassword("Mahaboubou");
+//        provider.setStatus(1);
+//        provider.setType(true);
+//        this.updateProfil(provider);
+//    }
 
     public boolean updateProfil(Provider provider) {
     this.providerRepository.findById(provider.getId());
@@ -41,20 +42,25 @@ public class ProviderService {
 
     /*Start product */
     public Product addProduct(Product product) {
-        return this.productService.addProduct(product);
+        return this.productRepository.save(product);
     }
 
-    public Product updateProduct(long idProduct, Product product) {
-        return this.productService.addProduct(product);
+    public Product updateProduct(long idProduct, Product newProduct) {
+        Product oldProduct = getProduct(idProduct);
+        if(oldProduct!=null){
+            newProduct.setId(idProduct);
+            return this.productRepository.save(newProduct);
+        }
+        return null;
     }
 
     public boolean deleteProduct(long id) {
-        this.productService.deleteProduct(id);
+        this.productRepository.deleteById(id);
         return true;
     }
 
     public Product getProduct(long id) {
-        return this.productService.getProduct(id);
+        return this.productRepository.findById(id).orElseThrow();
     }
 
     public Product[] getOwnedProducts() {

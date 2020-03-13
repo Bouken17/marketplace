@@ -1,8 +1,9 @@
 package com.project.marketplace.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Provider {
 
     @Id
@@ -27,9 +28,9 @@ public class Provider {
     @OneToOne
     private Society appartenir;
 //    ArrayList<Product> product = new ArrayList<Product>();
-    @JoinColumn
+    @JoinColumn(name = "Specialities")
     @OneToMany
-    ArrayList<Speciality> Specialities = new ArrayList<Speciality>();
+    List<Speciality> Specialities;
 //    AbstractAdmin abstractAdmin;
 
 
@@ -85,9 +86,37 @@ public class Provider {
         return this.type;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
 
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
+    public String getTel() {
+        return tel;
+    }
 
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public Society getAppartenir() {
+        return appartenir;
+    }
+
+    public void setAppartenir(Society appartenir) {
+        this.appartenir = appartenir;
+    }
+
+    public List<Speciality> getSpecialities() {
+        return Specialities;
+    }
+
+    public void setSpecialities(List<Speciality> specialities) {
+        Specialities = specialities;
+    }
 
 //    public int hashCode() {
 //        int lHashCode = 0;

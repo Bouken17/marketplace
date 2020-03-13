@@ -2,6 +2,7 @@ package com.project.marketplace.entity;
 
 import javax.persistence.*;
 
+@Entity
 public class Society {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

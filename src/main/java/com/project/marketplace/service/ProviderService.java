@@ -8,6 +8,8 @@ import com.project.marketplace.repository.ProviderRepository;
 import com.project.marketplace.repository.SpecialityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProviderService {
 
@@ -20,7 +22,12 @@ public class ProviderService {
         this.specialityRepository = specialityRepository;
         this.productRepository = productRepository;
 //        this.initDB();
+//        System.out.println(this.afficher(this.getAdmin()));
     }
+
+//    public Provider getAdmin() {
+//        return this.providerRepository.findFirstByAdminEquals(true);
+//    }
 
 //    private void initDB() {
 //        Provider provider = new Provider();
@@ -33,10 +40,14 @@ public class ProviderService {
 //        this.updateProfil(provider);
 //    }
 
-    public boolean updateProfil(Provider provider) {
-    this.providerRepository.findById(provider.getId());
-    this.providerRepository.save(provider);
-    return true;
+    public boolean updateProfil(long id, Provider provider) {
+        Provider provider1 = this.providerRepository.findById(provider.getId()).orElseThrow();
+        if (!provider1.equals(null)){
+            provider.setId(id);
+            this.providerRepository.save(provider);
+            return true;
+        }
+        return false;
     }
 
 
@@ -58,6 +69,10 @@ public class ProviderService {
         this.productRepository.deleteById(id);
         return true;
     }
+//    public String afficher( Provider Admin){
+//        return "Admin ["+ Admin.getFirstname()+"; "+ Admin.getLastname()+"; "+ Admin.getEmail()+"; "
+//                + Admin.getPassword()+"; "+ Admin.getTel()+"; "+ Admin.getStatus()+"] ";
+//    }
 
     public Product getProduct(long id) {
         return this.productRepository.findById(id).orElseThrow();
@@ -69,21 +84,22 @@ public class ProviderService {
     /*End product */
 
     /*Start speciality */
-    public boolean addSpeciality(Speciality speciality) {
-        this.specialityRepository.save(speciality);
-        return true;
-    }
+//    public boolean addSpeciality(Speciality speciality) {
+//        this.specialityRepository.save(speciality);
+//        return true;
+//    }
 
     public boolean updateSubscription(int subscription) {
         throw new UnsupportedOperationException();
     }
 
-    public Speciality[] getAllSpecialitys() {throw new UnsupportedOperationException();
+    public List<Speciality> getAllSpecialitys() {
+        return this.specialityRepository.findAll();
     }
 
-    public boolean deleteSpeciality() {
-        throw new UnsupportedOperationException();
-    }
+//    public boolean deleteSpeciality() {
+//        throw new UnsupportedOperationException();
+//    }
 
     /*End speciality */
 }

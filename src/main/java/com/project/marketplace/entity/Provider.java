@@ -14,7 +14,7 @@ public class Provider {
     @Column
     private String firstname;
     @Column
-    private boolean admin = false;
+    private boolean admin;
     @Column
     private String email;
     @Column

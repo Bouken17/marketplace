@@ -2,8 +2,6 @@ package com.project.marketplace.entity;
 
 import javax.persistence.*;
 
-
-
 @Entity
 public class Product {
 	@Id
@@ -21,6 +19,8 @@ public class Product {
 	private long nombreVue;
 	@Column
 	private String marque;
+	@Column
+	private boolean blocked=false;
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Provider provider;
@@ -29,6 +29,15 @@ public class Product {
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();
 //	Speciality appartenir;
 //	Provider provider;
+
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
 
 	public void setId(long id) { this.id = id; }
 

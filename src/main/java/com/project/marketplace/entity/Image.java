@@ -1,5 +1,7 @@
 package com.project.marketplace.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,9 +13,11 @@ public class Image {
 	private String name;
 	@Column
 	private String path;
-	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	public Image(){}
+	public Image(MultipartFile file, Long id){
+		this.setName(file.getOriginalFilename());
+		this.setPath("http://localhost:8080/images/"+id+"/" + file.getOriginalFilename());
+	}
 
 	public void setId(long id) {
 		this.id = id;
@@ -39,9 +43,6 @@ public class Image {
 		return this.path;
 	}
 
-	public Product getProduct() { return product; }
-
-	public void setProduct(Product product) { this.product = product; }
 //	public int hashCode() {
 //		int lHashCode = 0;
 //		if ( this.name != null ) {

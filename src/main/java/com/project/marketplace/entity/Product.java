@@ -1,7 +1,13 @@
 package com.project.marketplace.entity;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 public class Product {
 	@Id
@@ -24,7 +30,9 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Provider provider;
-//	ArrayList<Image> posseder = new ArrayList<Image>();
+	@OneToMany
+	@JoinColumn(name = "images")
+	private List<Image> images;
 //	ArrayList<Complaint> reclamer = new ArrayList<Complaint>();
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();
 //	Speciality appartenir;
@@ -75,6 +83,14 @@ public class Product {
 
 	public void setProvider(Provider provider) {
 		this.provider = provider;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 	//	public int hashCode() {

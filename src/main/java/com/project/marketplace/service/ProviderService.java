@@ -22,22 +22,35 @@ public class ProviderService {
         this.specialityRepository = specialityRepository;
         this.productRepository = productRepository;
 //        this.initDB();
+//        this.updateDB();
 //        System.out.println(this.afficher(this.getAdmin()));
     }
 
+    private void initDB() {
+        for(int i=0;i<10;i++) {
+            Product product = new Product();
+            product.setName("Product " + (i + 1) + " Name ");
+            product.setDescription("Product " + (i + 1) + " Description ");
+            product.setCatalogue("Product " + (i + 1) + " Catalogue ");
+            product.setMarque("Product " + (i + 1) + " Marque ");
+            this.addProduct(product);
+
+        }
+    }
+
+
+    private void updateDB() {
+        for(int i=0;i<10;i++){
+            Provider provider = this.providerRepository.findById((long)(i+1+10)).orElseThrow();
+            Product product = this.productRepository.findById((long)(i+1)).orElseThrow();
+            product.setProvider(provider);
+            this.updateProduct(product.getId(),product);
+        }
+    }
+
+
 //    public Provider getAdmin() {
 //        return this.providerRepository.findFirstByAdminEquals(true);
-//    }
-
-//    private void initDB() {
-//        Provider provider = new Provider();
-//        provider.setFirstname("Abdou@gmail.com");
-//        provider.setLastname("CIN1");
-//        provider.setEmail("Laouali");
-//        provider.setPassword("Mahaboubou");
-//        provider.setStatus(1);
-//        provider.setType(true);
-//        this.updateProfil(provider);
 //    }
 
     public boolean updateProfil(long id, Provider provider) {

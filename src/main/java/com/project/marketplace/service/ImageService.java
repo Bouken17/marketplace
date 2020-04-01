@@ -9,22 +9,24 @@ import java.util.List;
 @Service
 public class ImageService {
     private final ImageRepository imageRepository;
-//    private final ProductService productService;
-
-    public ImageService(ImageRepository imageRepository, ProductService productService) {
+    public ImageService(ImageRepository imageRepository){
         this.imageRepository = imageRepository;
-//        this.productService = productService;
-//        this.initDB();
     }
-//    private void initDB() {
-//        Image image = new Image();
-//        image.setName("image1");
-//        image.setPath("chemin ");
-//        image.setProduct(productService.getAllProducts().get(0));
-//        this.addImage(image);
+    public void addImage(Image image){
+        this.imageRepository.save(image);
+    }
+    public String getImage(Long id){
+        Image image = this.imageRepository.findById(id).orElseThrow();
+        return image.getPath();
+    }
+//    public String getImageByClientId(Long id){
+//        Image image = this.imageRepository.findFirstByClientId(id);
+//        if(!image.equals(null))
+//            return image.getPath();
+//        else
+//            return "L'image n'existe pas";
 //    }
-//
-//    public Image addImage(Image image) {
-//        return this.imageRepository.save(image);
+//    public void deleteImages(Long id){
+//        this.imageRepository.deleteAllByClientId(id);
 //    }
 }

@@ -12,16 +12,8 @@ public class ProductService {
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-//                this.initDB();
     }
-//    private void initDB() {
-//        Product product = new Product();
-//        product.setName("Abdou@gmail.com");
-//        product.setDescription("CIN1");
-//        product.setCatalogue("Laouali");
-//        product.setMarque("Mahaboubou");
-//        this.addProduct(product);
-//    }
+
     public List<Product> getAllProducts() {
         return this.productRepository.findAll();
     }

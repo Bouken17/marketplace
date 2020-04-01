@@ -19,7 +19,22 @@ public class AdminService {
         this.providerRepository = providerRepository;
         this.productRepository = productRepository;
         this.specialityRepository = specialityRepository;
+//        this.initDB();
     }
+
+    private void initDB() {
+        for(int i=0;i<10;i++){
+            Provider provider = new Provider();
+            provider.setFirstname("Provider " + ( i + 1 ) + " FirstName ");
+            provider.setLastname("Provider " + ( i + 1 ) + " LastName ");
+            provider.setEmail("Provider " + ( i + 1 ) + " Mail ");
+            provider.setPassword("Provider " + ( i + 1 ) + " Password ");
+            provider.setStatus(1);
+            provider.setType(true);
+            this.addProvider(provider);
+        }
+    }
+
 
     public boolean addProvider(Provider provider) {
         this.providerRepository.save(provider);
@@ -53,4 +68,5 @@ public class AdminService {
         this.specialityRepository.deleteById(id);
         return !true;
     }
+
 }

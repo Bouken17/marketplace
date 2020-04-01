@@ -26,7 +26,7 @@ public class Provider {
     @Column
     private boolean type;
     @OneToOne
-    private Society appartenir;
+    private Society Society;
 //    ArrayList<Product> product = new ArrayList<Product>();
     @JoinColumn(name = "Specialities")
     @OneToMany
@@ -103,11 +103,11 @@ public class Provider {
     }
 
     public Society getAppartenir() {
-        return appartenir;
+        return Society;
     }
 
     public void setAppartenir(Society appartenir) {
-        this.appartenir = appartenir;
+        this.Society = appartenir;
     }
 
     public List<Speciality> getSpecialities() {

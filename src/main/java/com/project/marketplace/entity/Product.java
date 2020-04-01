@@ -28,10 +28,10 @@ public class Product {
 	@Column
 	private boolean blocked=false;
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "provider_id")
 	private Provider provider;
 	@OneToMany
-	@JoinColumn(name = "images")
+	@JoinColumn(name = "product_id")
 	private List<Image> images;
 //	ArrayList<Complaint> reclamer = new ArrayList<Complaint>();
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();

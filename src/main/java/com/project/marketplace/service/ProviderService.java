@@ -1,11 +1,13 @@
 package com.project.marketplace.service;
 
+import com.project.marketplace.entity.Image;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Speciality;
 import com.project.marketplace.repository.ProductRepository;
 import com.project.marketplace.repository.ProviderRepository;
 import com.project.marketplace.repository.SpecialityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,10 +71,12 @@ public class ProviderService {
         return this.productRepository.save(product);
     }
 
+
+
     public Product updateProduct(long idProduct, Product newProduct) {
         Product oldProduct = getProduct(idProduct);
         if(oldProduct!=null){
-            newProduct.setId(idProduct);
+//            newProduct.setId(idProduct);
             return this.productRepository.save(newProduct);
         }
         return null;

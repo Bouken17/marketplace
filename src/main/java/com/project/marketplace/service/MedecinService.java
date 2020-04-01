@@ -1,6 +1,5 @@
 package com.project.marketplace.service;
 
-import com.project.marketplace.entity.Medecin;
 import com.project.marketplace.repository.MedecinRepository;
 import org.springframework.stereotype.Service;
 

@@ -4,8 +4,6 @@ import com.project.marketplace.entity.Image;
 import com.project.marketplace.repository.ImageRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ImageService {
     private final ImageRepository imageRepository;

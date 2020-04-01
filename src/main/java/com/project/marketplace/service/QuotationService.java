@@ -1,10 +1,8 @@
 package com.project.marketplace.service;
 
-import com.project.marketplace.entity.Quotation;
 import com.project.marketplace.repository.QuotationRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class QuotationService {

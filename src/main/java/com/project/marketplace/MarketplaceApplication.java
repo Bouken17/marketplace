@@ -37,7 +37,7 @@ public class MarketplaceApplication  implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/statics/")
+        registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
     }
 }

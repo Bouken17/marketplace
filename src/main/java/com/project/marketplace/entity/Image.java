@@ -3,6 +3,8 @@ package com.project.marketplace.entity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Image {
@@ -14,9 +16,21 @@ public class Image {
 	@Column
 	private String path;
 	public Image(){}
-	public Image(MultipartFile file, Long id){
+	public Image(MultipartFile file, String name,long id){
 		this.setName(file.getOriginalFilename());
-		this.setPath("http://localhost:8080/images/"+id+"/" + file.getOriginalFilename());
+		this.setPath("http://localhost:8080/images/"+id+"/"+name+"/" + file.getOriginalFilename());
+	}
+
+	public List<Image> convertToImage(MultipartFile[] Files, String name, long id){
+		List<Image> images= new ArrayList<Image>();
+		for ( MultipartFile file: Files) {
+			images.add(new Image(file,name,id));
+		}
+		System.out.println("Convert to Image");
+		for ( Image image: images) {
+			System.out.println(image.getPath());
+		}
+		return images;
 	}
 
 	public void setId(long id) {

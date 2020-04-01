@@ -1,7 +1,5 @@
 package com.project.marketplace.service;
 
-import com.project.marketplace.entity.Product;
-import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Society;
 import com.project.marketplace.repository.SocietyRepository;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,7 @@ public class SocietyService {
 
     public SocietyService(SocietyRepository societyrRepository) {
         this.societyrRepository = societyrRepository;
-        this.initDB();
+//        this.initDB();
     }
 
     private void initDB() {

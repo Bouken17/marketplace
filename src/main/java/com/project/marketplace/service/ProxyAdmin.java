@@ -2,7 +2,6 @@ package com.project.marketplace.service;
 
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Speciality;
-import com.project.marketplace.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
 @Service

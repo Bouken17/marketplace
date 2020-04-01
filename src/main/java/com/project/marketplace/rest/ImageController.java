@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/image")
 public class ImageController {
-
     private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
     private final ImageService imageService;
     private final ProductService productService;

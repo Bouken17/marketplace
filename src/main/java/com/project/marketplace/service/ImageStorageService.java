@@ -19,14 +19,14 @@ public class ImageStorageService {
         this.pathFirstPart=fileStorageProperties.getUploadDir();
     }
 
-    public String storeImage(MultipartFile image, long id, String name) {
+    public String storeImage(MultipartFile image, Product product) {
         String imageName = StringUtils.cleanPath(image.getOriginalFilename());
         try {
             if(imageName.contains("..")) {
                 throw new ImageStorageException("Sorry! Filename contains invalid path sequence " + imageName);
             }
             try {
-                this.fileStorageLocation = Paths.get(this.pathFirstPart+"/"+id+"/"+name).toAbsolutePath().normalize();
+                this.fileStorageLocation = Paths.get(this.pathFirstPart+"/"+product.getProvider().getId()+"/"+product.getId()).toAbsolutePath().normalize();
                 Files.createDirectories(this.fileStorageLocation);
             } catch (Exception ex) {
                 throw new ImageStorageException("Could not create the directory where the uploaded file will be stored.", ex);

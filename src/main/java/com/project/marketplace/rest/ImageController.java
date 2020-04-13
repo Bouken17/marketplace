@@ -34,20 +34,25 @@ public class ImageController {
 //        return this.imageService.getImageByClientId(id);
 //    }
 
-//    @PostMapping("/uploadImage/{id}")
-//    public String uploadFile(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
-//
-//        String fileName = imageStorageService.storeImage(file, id, "name");
-//        Image image = new Image(file,id.toString(),id);
-//        this.imageService.addImage(image);
-//        return image.getPath();
-//    }
-//
-//    @PostMapping("/upload-multiple-images/{id}")
-//    @ResponseBody
-//    public String uploadMultipleFiles(@PathVariable("id") long id, @RequestParam("images") MultipartFile[] images) {
-//        return Arrays.stream(images)
-//                .map(file -> uploadFile(id,file))
-//                .collect(Collectors.toList()).toString();
-//    }
+    @PostMapping("/uploadImage/{id}")
+    public String uploadFile(@PathVariable("product") Product product, @RequestParam("file") MultipartFile file) {
+
+        String fileName = imageStorageService.storeImage(file,product);
+        Image image = new Image(file,product);
+        this.imageService.addImage(image);
+        return image.getPath();
+    }
+
+//    @PostMapping("/upload-multiple-images")
+    @PostMapping("/upload-multiple-images/{id}")
+    @ResponseBody
+//    public String uploadMultipleFiles(@RequestParam("images") MultipartFile[] images) {
+    public String uploadMultipleFiles(@PathVariable("product") Product product , @RequestParam("images") MultipartFile[] images) {
+
+        System.out.println(images.length);
+        return Arrays.stream(images)
+                .map(file -> uploadFile(product,file))
+                .collect(Collectors.toList()).toString();
+//        return ""+images.length;
+    }
 }

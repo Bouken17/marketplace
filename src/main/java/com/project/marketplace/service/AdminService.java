@@ -23,12 +23,12 @@ public class AdminService {
     }
 
     private void initDB() {
-        for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
             Provider provider = new Provider();
-            provider.setFirstname("Provider " + ( i + 1 ) + " FirstName ");
-            provider.setLastname("Provider " + ( i + 1 ) + " LastName ");
-            provider.setEmail("Provider " + ( i + 1 ) + " Mail ");
-            provider.setPassword("Provider " + ( i + 1 ) + " Password ");
+            provider.setFirstname("Provider " + ( j + 1 ) + " FirstName ");
+            provider.setLastname("Provider " + ( j + 1 ) + " LastName ");
+            provider.setEmail("Provider " + ( j + 1 ) + " Mail ");
+            provider.setPassword("Provider " + ( j + 1 ) + " Password ");
             provider.setStatus(1);
             provider.setType(true);
             this.addProvider(provider);

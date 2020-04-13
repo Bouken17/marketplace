@@ -35,7 +35,9 @@ public class Product {
 	private List<Image> images;
 //	ArrayList<Complaint> reclamer = new ArrayList<Complaint>();
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();
-//	Speciality appartenir;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "speciality")
+	private Speciality speciality;
 //	Provider provider;
 
 

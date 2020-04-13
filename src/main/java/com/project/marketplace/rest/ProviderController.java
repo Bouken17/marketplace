@@ -1,5 +1,6 @@
 package com.project.marketplace.rest;
 
+import com.google.gson.Gson;
 import com.project.marketplace.entity.Image;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
@@ -34,20 +35,23 @@ public class ProviderController {
         return this.providerService.updateProfil(id,provider);
     }
 
+    @GetMapping("/getProfil/{id}")
+    public Provider getPRovider(@Valid @PathVariable("id") long id){
+        return this.providerService.getProvider(id);
+    }
     @PostMapping("/addproduct")
-    public Product addProduct(@Valid @RequestParam("produit") Product product, @Valid @RequestParam("images") MultipartFile[] images) {
-//    public Product addProduct(@Valid @RequestParam("produit") String productName, @Valid @RequestParam("images") MultipartFile[] images) {
-//        Product product=new Product();
-//        product.setName(productName);
-//        product.setImages(new Image().convertToImage(images,product.getName().replace(" ","_"),1));
-        product.setImages(new Image().convertToImage(images,product.getName().replace(" ","_"),product.getProvider().getId()));
+    public Product addProduct(@Valid @RequestParam("product") String productStr,@Valid @RequestParam("images") MultipartFile[] images) { System.out.println(" images nb: "+images.length);
+//        System.out.println(" product: "+productStr);
+//        System.out.println(" images nb: "+images[0].getOriginalFilename());
+        Product product = new Gson().fromJson(productStr, Product.class);
         Product product1= this.providerService.addProduct(product);
+        product1.setImages(new Image().convertToImage(images,product));
+        Product product2= this.providerService.addProduct(product1);
         for ( MultipartFile image: images) {
-            this.imageStorageService.storeImage(image,product.getProvider().getId(),product.getName().replace(" ","_"));
-//            imageStorageService.storeImage(image,1,product.getName().replace(" ","_"));
+            this.imageStorageService.storeImage(image,product);
         }
-//        this.imageController.uploadMultipleFiles(product1.getId(),images);
-        return product1;
+        this.imageController.uploadMultipleFiles(product1,images);
+        return product2;
     }
 
     @PutMapping("/updateproduct")

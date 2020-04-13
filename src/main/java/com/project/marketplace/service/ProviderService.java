@@ -36,10 +36,12 @@ public class ProviderService {
             product.setCatalogue("Product " + (i + 1) + " Catalogue ");
             product.setMarque("Product " + (i + 1) + " Marque ");
             this.addProduct(product);
-
         }
     }
 
+    public Provider getProvider(long id){
+        return this.providerRepository.findById(id).orElseThrow();
+    }
 
     private void updateDB() {
         for(int i=0;i<10;i++){

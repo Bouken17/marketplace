@@ -25,12 +25,12 @@ public class Provider {
     private int status;
     @Column
     private boolean type;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Society")
     private Society Society;
 //    ArrayList<Product> product = new ArrayList<Product>();
-    @JoinColumn(name = "Specialities")
-    @OneToMany
-    List<Speciality> Specialities;
+
+//    List<Speciality> Specialities;
 //    AbstractAdmin abstractAdmin;
 
 
@@ -108,14 +108,6 @@ public class Provider {
 
     public void setAppartenir(Society appartenir) {
         this.Society = appartenir;
-    }
-
-    public List<Speciality> getSpecialities() {
-        return Specialities;
-    }
-
-    public void setSpecialities(List<Speciality> specialities) {
-        Specialities = specialities;
     }
 
 }

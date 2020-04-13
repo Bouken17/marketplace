@@ -1,6 +1,7 @@
 package com.project.marketplace.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Speciality {
@@ -11,9 +12,18 @@ public class Speciality {
     private String name;
     @Column
     private double priceSpeciality;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Specialities")
+    private List<Provider> providers;
 //    ArrayList<Medecin> medecin = new ArrayList<Medecin>();
 //    ArrayList<Provider> avoir = new ArrayList<Provider>();
 //    ArrayList<Product> appartenir = new ArrayList<Product>();
+
+
+    public Speciality(String name, double priceSpeciality) {
+        this.name = name.toUpperCase();
+        this.priceSpeciality = priceSpeciality;
+    }
 
     public void setId(long id) {
         this.id = id;
@@ -39,4 +49,11 @@ public class Speciality {
         return this.priceSpeciality;
     }
 
+    public List<Provider> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(List<Provider> providers) {
+        this.providers = providers;
+    }
 }

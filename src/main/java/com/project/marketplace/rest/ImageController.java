@@ -39,7 +39,7 @@ public class ImageController {
 
         String fileName = imageStorageService.storeImage(file,product);
         Image image = new Image(file,product);
-        this.imageService.addImage(image);
+//        this.imageService.addImage(image);
         return image.getPath();
     }
 

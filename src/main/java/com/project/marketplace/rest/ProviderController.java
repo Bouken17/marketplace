@@ -5,6 +5,7 @@ import com.project.marketplace.entity.Image;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Speciality;
+import com.project.marketplace.service.ImageService;
 import com.project.marketplace.service.ImageStorageService;
 import com.project.marketplace.service.ProviderService;
 import com.project.marketplace.service.ProxyAdmin;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,13 +23,15 @@ public class ProviderController {
     private final ProviderService providerService;
     private final ProxyAdmin proxyAdmin;
     private final ImageController imageController;
+    private final ImageService imageService;
     @Autowired
     private ImageStorageService imageStorageService;
 
-    public ProviderController(ProviderService providerService, ProxyAdmin proxyAdmin, ImageController imageController) {
+    public ProviderController(ProviderService providerService, ProxyAdmin proxyAdmin, ImageController imageController, ImageService imageService) {
         this.providerService = providerService;
         this.proxyAdmin = proxyAdmin;
         this.imageController = imageController;
+        this.imageService = imageService;
     }
 
     @PutMapping("/updateProfil")
@@ -40,18 +44,27 @@ public class ProviderController {
         return this.providerService.getProvider(id);
     }
     @PostMapping("/addproduct")
-    public Product addProduct(@Valid @RequestParam("product") String productStr,@Valid @RequestParam("images") MultipartFile[] images) { System.out.println(" images nb: "+images.length);
-//        System.out.println(" product: "+productStr);
-//        System.out.println(" images nb: "+images[0].getOriginalFilename());
+    public Product addProduct(@Valid @RequestParam("product") String productStr,@Valid @RequestParam("images") MultipartFile[] images) {
         Product product = new Gson().fromJson(productStr, Product.class);
         Product product1= this.providerService.addProduct(product);
-        product1.setImages(new Image().convertToImage(images,product));
-        Product product2= this.providerService.addProduct(product1);
+        List<Image> liste=Image.convertToImage(images,product1);
+        List<Image> temp=new ArrayList<Image>();
+        for(int i=0;i<liste.size();i++)
+            temp.add(new Image());
+        product1.setImages(temp);
+        Product product2= this.providerService.updateProduct(product1.getId(),product1);
+        for (int i=0;i<liste.size();i++) {
+            liste.get(i).setId(product2.getImages().get(i).getId());
+        }
+        for (Image image: liste) {
+            this.imageService.updateImage(image);
+        }
+        Product product3= this.providerService.getProduct(product2.getId());
         for ( MultipartFile image: images) {
             this.imageStorageService.storeImage(image,product);
         }
-        this.imageController.uploadMultipleFiles(product1,images);
-        return product2;
+        this.imageController.uploadMultipleFiles(product3,images);
+        return product3;
     }
 
     @PutMapping("/updateproduct")

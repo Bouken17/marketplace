@@ -11,6 +11,8 @@ public class Speciality {
     @Column
     private String name;
     @Column
+    private String image;
+    @Column
     private double priceSpeciality;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "Specialities")
@@ -19,10 +21,12 @@ public class Speciality {
 //    ArrayList<Provider> avoir = new ArrayList<Provider>();
 //    ArrayList<Product> appartenir = new ArrayList<Product>();
 
+    public Speciality() {}
 
-    public Speciality(String name, double priceSpeciality) {
+    public Speciality(String name, double priceSpeciality, String image) {
         this.name = name.toUpperCase();
         this.priceSpeciality = priceSpeciality;
+        this.image = image;
     }
 
     public void setId(long id) {
@@ -55,5 +59,13 @@ public class Speciality {
 
     public void setProviders(List<Provider> providers) {
         this.providers = providers;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -10,6 +10,7 @@ import com.project.marketplace.repository.SpecialityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,14 +74,28 @@ public class ProviderService {
         return this.productRepository.save(product);
     }
 
-
+    public long getLastProductId(){
+        List<Product> produits = this.productRepository.findAll();
+        long id=-1;
+        if(produits.size()==0) {
+            id=1;
+        }else{
+            for (Product product1: produits) {
+                if(product1.getId()>id)
+                    id=product1.getId();
+            }
+        }
+        return id;
+    }
 
     public Product updateProduct(long idProduct, Product newProduct) {
         Product oldProduct = getProduct(idProduct);
         if(oldProduct!=null){
-//            newProduct.setId(idProduct);
+            newProduct.setId(idProduct);
+//            System.out.println("success");
             return this.productRepository.save(newProduct);
         }
+//        System.out.println("failed ");
         return null;
     }
 

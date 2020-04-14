@@ -17,6 +17,10 @@ public class ImageService {
         Image image = this.imageRepository.findById(id).orElseThrow();
         return image.getPath();
     }
+    public Image updateImage(Image image){
+        return this.imageRepository.save(image);
+    }
+
 //    public String getImageByClientId(Long id){
 //        Image image = this.imageRepository.findFirstByClientId(id);
 //        if(!image.equals(null))

@@ -20,10 +20,23 @@ public class AdminService {
         this.productRepository = productRepository;
         this.specialityRepository = specialityRepository;
 //        this.initDB();
+//        this.initDBProvider();
     }
 
+    private void initDBProvider(){
+        Provider provider = new Provider();
+        provider.setStatus(1);
+        provider.setEmail("admin@gmail.com");
+        provider.setFirstname("a");
+        provider.setFirstname("adminFistname");
+        provider.setLastname("adminLastname");
+        provider.setPassword("admin12345");
+        provider.setAdmin(true);
+        provider.setTel("0606060606");
+        this.addProvider(provider);
+    }
     private void initDB() {
-        for(int j=0;j<10;j++){
+        for(int j=0;j<1;j++){
             Provider provider = new Provider();
             provider.setFirstname("Provider " + ( j + 1 ) + " FirstName ");
             provider.setLastname("Provider " + ( j + 1 ) + " LastName ");

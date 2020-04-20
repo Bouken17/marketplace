@@ -44,6 +44,14 @@ public class ProviderService {
         return this.providerRepository.findById(id).orElseThrow();
     }
 
+    public Provider getProvider(String mail){
+        return this.providerRepository.findFirstByEmailEquals(mail);
+    }
+
+    public Provider getAdmin(){
+        return this.providerRepository.findFirstByAdminEquals(true);
+    }
+
     private void updateDB() {
         for(int i=0;i<10;i++){
             Provider provider = this.providerRepository.findById((long)(i+1+10)).orElseThrow();

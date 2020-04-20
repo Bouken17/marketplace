@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProviderRepository extends JpaRepository<Provider,Long> {
     Provider findFirstByAdminEquals(boolean admin) ;
+    Provider findFirstByEmailEquals(String mail) ;
 }

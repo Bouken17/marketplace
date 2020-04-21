@@ -43,9 +43,11 @@ public class ProviderController {
     public Provider getPRovider(@Valid @PathVariable("id") long id){
         return this.providerService.getProvider(id);
     }
-    @PostMapping("/addproduct")
-    public Product addProduct(@Valid @RequestParam("product") String productStr,@Valid @RequestParam("images") MultipartFile[] images) {
+    @PostMapping("/addproduct/{id}")
+    public Product addProduct(@PathVariable("id") long id, @RequestParam("product") String productStr,@RequestParam("images") MultipartFile[] images) {
         Product product = new Gson().fromJson(productStr, Product.class);
+        System.out.println(getPRovider(id).getFirstname());
+        product.setProvider(getPRovider(id));
         Product product1= this.providerService.addProduct(product);
         List<Image> liste=Image.convertToImage(images,product1);
         List<Image> temp=new ArrayList<Image>();

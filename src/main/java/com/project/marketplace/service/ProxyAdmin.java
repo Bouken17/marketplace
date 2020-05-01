@@ -17,8 +17,11 @@ public class ProxyAdmin {
     }
 
     public boolean addProvider(Provider provider) {
-        if(this.provider.isAdmin())
-            return this.adminService.addProvider(provider);
+        if(this.provider.isAdmin()) {
+            Provider provider1= this.adminService.addProvider(provider);
+            if(provider1!=null)
+                return true;
+        }
         return false;
     }
 

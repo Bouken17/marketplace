@@ -1,14 +1,8 @@
 package com.project.marketplace.rest;
 
 import com.google.gson.Gson;
-import com.project.marketplace.entity.Image;
-import com.project.marketplace.entity.Product;
-import com.project.marketplace.entity.Provider;
-import com.project.marketplace.entity.Speciality;
-import com.project.marketplace.service.ImageService;
-import com.project.marketplace.service.ImageStorageService;
-import com.project.marketplace.service.ProviderService;
-import com.project.marketplace.service.ProxyAdmin;
+import com.project.marketplace.entity.*;
+import com.project.marketplace.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,14 +18,18 @@ public class ProviderController {
     private final ProxyAdmin proxyAdmin;
     private final ImageController imageController;
     private final ImageService imageService;
+    private final AdminService adminService;
+    private final SpecialityService specialityService;
     @Autowired
     private ImageStorageService imageStorageService;
 
-    public ProviderController(ProviderService providerService, ProxyAdmin proxyAdmin, ImageController imageController, ImageService imageService) {
+    public ProviderController(ProviderService providerService, ProxyAdmin proxyAdmin, ImageController imageController, ImageService imageService, AdminService adminService, SpecialityService specialityService) {
         this.providerService = providerService;
         this.proxyAdmin = proxyAdmin;
         this.imageController = imageController;
         this.imageService = imageService;
+        this.adminService = adminService;
+        this.specialityService = specialityService;
     }
 
     @PutMapping("/updateProfil")
@@ -69,6 +67,28 @@ public class ProviderController {
         return product3;
     }
 
+    @PostMapping("/register")
+    public Provider register(@RequestParam("data") String data,@RequestParam("specialities") String[] specialities,
+                            @RequestParam("society") String society ) {
+        Provider provider = new Gson().fromJson(data, Provider.class);
+        List<Speciality> specialities1 = new ArrayList<>();
+        for (String speciality: specialities) {
+            specialities1.add(new Gson().fromJson(speciality, Speciality.class));
+        }
+        if(!society.equals("")){
+            Society society1 = new Gson().fromJson(society, Society.class);
+            provider.setSociety(society1);
+            provider.setType(true);
+        }else {
+            provider.setType(false);
+        }
+        if(specialities1.size()>0){
+            provider.setSpecialities(specialities1);
+        }
+        return this.adminService.addProvider(provider);
+    }
+
+
     @PutMapping("/updateproduct")
     public Product updateProduct(@Valid @PathVariable long idProduct, @Valid @RequestBody Product newProduct) {
         return this.providerService.updateProduct(idProduct,newProduct);
@@ -85,7 +105,12 @@ public class ProviderController {
     }
 
     @GetMapping("/specialities")
-    public List<Speciality> getAllSpecialitys() {
+    public List<Speciality> getAllSpecialities() {
         return this.providerService.getAllSpecialitys();
+    }
+
+    @GetMapping("/speciality/{id}")
+    public Speciality getAllSpeciality(@PathVariable("id") long id) {
+        return this.specialityService.getSpeciality(id);
     }
 }

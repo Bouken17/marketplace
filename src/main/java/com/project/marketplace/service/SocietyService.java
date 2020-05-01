@@ -14,6 +14,10 @@ public class SocietyService {
 //        this.initDB();
     }
 
+    public Society addSociety(Society society){
+        return this.societyrRepository.save(society);
+    }
+
     private void initDB() {
         Society society = new Society();
         society.setName("Abdou@gmail.com");

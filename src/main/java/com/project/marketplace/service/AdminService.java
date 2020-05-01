@@ -3,11 +3,12 @@ package com.project.marketplace.service;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.entity.Speciality;
-import com.project.marketplace.repository.AdminRepository;
 import com.project.marketplace.repository.ProductRepository;
 import com.project.marketplace.repository.ProviderRepository;
 import com.project.marketplace.repository.SpecialityRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AdminService {
@@ -26,14 +27,44 @@ public class AdminService {
     private void initDBProvider(){
         Provider provider = new Provider();
         provider.setStatus(1);
-        provider.setEmail("admin@gmail.com");
+        provider.setEmail("admin@gmail.com tetettetetetet");
         provider.setFirstname("a");
         provider.setFirstname("adminFistname");
         provider.setLastname("adminLastname");
         provider.setPassword("admin12345");
         provider.setAdmin(true);
         provider.setTel("0606060606");
-        this.addProvider(provider);
+        List<Speciality> specialities=this.specialityRepository.findAll();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(specialities.size());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        Provider provider1=this.addProvider(provider);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(provider1.getId());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        provider1.setSpecialities(specialities);
+        Provider provider2=this.addProvider(provider1);
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(provider1.getId());
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println("Les specialités du fournisseur "+provider2.getId());
+        List<Speciality> specialities1 = provider2.getSpecialities();
+        for ( Speciality speciality : specialities1) {
+            System.out.println(speciality.getName());
+        }
+
     }
     private void initDB() {
         for(int j=0;j<1;j++){
@@ -49,9 +80,8 @@ public class AdminService {
     }
 
 
-    public boolean addProvider(Provider provider) {
-        this.providerRepository.save(provider);
-        return true;
+    public Provider addProvider(Provider provider) {
+        return  this.providerRepository.save(provider);
     }
 
     public boolean blockProduct(long product, long provider) {

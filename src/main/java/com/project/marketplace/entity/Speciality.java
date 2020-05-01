@@ -1,7 +1,11 @@
 package com.project.marketplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Speciality {
@@ -14,12 +18,26 @@ public class Speciality {
     private String image;
     @Column
     private double priceSpeciality;
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "Specialities")
-    private List<Provider> providers;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "Specialities", fetch = FetchType.LAZY)
+    private List<Provider> providers ;
+
+    //    @ManyToMany(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "Specialities")
+//    @ManyToMany(mappedBy = "Specialities")
+//    private List<Provider> providers;
 //    ArrayList<Medecin> medecin = new ArrayList<Medecin>();
 //    ArrayList<Provider> avoir = new ArrayList<Provider>();
 //    ArrayList<Product> appartenir = new ArrayList<Product>();
+
+
+    public List<Provider> getProviders() {
+        return providers;
+    }
+
+    public void setProviders(List<Provider> providers) {
+        this.providers = providers;
+    }
 
     public Speciality() {}
 
@@ -53,13 +71,13 @@ public class Speciality {
         return this.priceSpeciality;
     }
 
-    public List<Provider> getProviders() {
-        return providers;
-    }
-
-    public void setProviders(List<Provider> providers) {
-        this.providers = providers;
-    }
+//    public List<Provider> getProviders() {
+//        return providers;
+//    }
+//
+//    public void setProviders(List<Provider> providers) {
+//        this.providers = providers;
+//    }
 
     public String getImage() {
         return image;

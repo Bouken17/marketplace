@@ -13,6 +13,9 @@ public class SpecialityService {
 //        this.initDB();
     }
 
+    public Speciality getSpeciality(long id){
+        return this.specialityRepositor.findById(id).orElseThrow();
+    }
 
     private void initDB() {
         this.specialityRepositor.save(new Speciality("Allergologie",500,"http://localhost:8080/images/Specialities/img1.jpeg"));

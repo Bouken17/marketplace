@@ -34,8 +34,7 @@ public class AdminController {
         this.imageService = imageService;
     }
     @GetMapping("/login/{admin}")
-//    public boolean login(@RequestParam("type") boolean type, @RequestParam("login") String login, @RequestParam("password") String password){
-    public boolean login(@Valid @PathVariable("admin") String admin, @Valid @RequestParam("login") String login, @Valid @RequestParam("password") String password){
+    public boolean login(@PathVariable("admin") String admin, @RequestParam("login") String login, @RequestParam("password") String password){
         Provider provider=null;
         if (admin.equals("admin")) {
             provider = this.providerService.getAdmin();

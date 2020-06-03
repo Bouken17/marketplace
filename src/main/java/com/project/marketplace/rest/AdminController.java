@@ -39,7 +39,7 @@ public class AdminController {
         if (admin.equals("admin")) {
             provider = this.providerService.getAdmin();
         }else{
-            provider = this.providerService.getProvider(login);
+            provider = this.providerService.getProviderByEmail(login);
         }
         if(provider == null)
             return false;
@@ -47,4 +47,11 @@ public class AdminController {
             return true;
         return false;
     }
+    @GetMapping("/getAdmin")
+    public Provider getAdmin(){
+        Provider Admin = this.providerService.getAdmin();
+        Admin.setPassword("");
+        return Admin;
+    }
+
 }

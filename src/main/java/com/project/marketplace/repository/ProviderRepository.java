@@ -1,5 +1,6 @@
 package com.project.marketplace.repository;
 
+import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import org.springframework.data.jpa.repository.JpaRepository;
 

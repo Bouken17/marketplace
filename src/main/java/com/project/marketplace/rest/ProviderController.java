@@ -104,6 +104,11 @@ public class ProviderController {
         return this.providerService.getProduct(id);
     }
 
+    @GetMapping("/getownedproducts/{id}")
+    public List<Product> getOwnedProducts(@Valid @PathVariable long id) {
+        return this.providerService.getOwnedProducts(id);
+    }
+
     @GetMapping("/specialities")
     public List<Speciality> getAllSpecialities() {
         return this.providerService.getAllSpecialitys();

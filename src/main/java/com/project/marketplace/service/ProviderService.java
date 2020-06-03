@@ -44,7 +44,7 @@ public class ProviderService {
         return this.providerRepository.findById(id).orElseThrow();
     }
 
-    public Provider getProvider(String mail){
+    public Provider getProviderByEmail(String mail){
         return this.providerRepository.findFirstByEmailEquals(mail);
     }
 
@@ -118,6 +118,12 @@ public class ProviderService {
 
     public Product getProduct(long id) {
         return this.productRepository.findById(id).orElseThrow();
+    }
+
+    public List<Product> getOwnedProducts(long id) {
+        List<Product> products =null;
+        products =this.productRepository.findAllByProviderEquals(this.getProvider(id));
+        return products;
     }
 
     public Product[] getOwnedProducts() {

@@ -25,8 +25,8 @@ public class ComplaintService {
 //        complaint.setProduct(productService.getAllProducts().get(0));
 //        this.addComplaint(complaint);
 //    }
-//
-//    public Complaint addComplaint(Complaint complaint) {
-//        return this.complaintRepository.save(complaint);
-//    }
+
+    public Complaint addComplaint(Complaint complaint) {
+        return this.complaintRepository.save(complaint);
+    }
 }

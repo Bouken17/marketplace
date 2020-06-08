@@ -44,5 +44,14 @@ public class ProductController {
         }
         return products;
     }
+    @GetMapping("mostview")
+    public Product getmostview() {
+        return this.productService.getMostView();
+    }
+
+    @PostMapping("increment")
+    public Product increment(@RequestParam("data") String id) {
+        return this.productService.incrementView(Long.parseLong(id));
+    }
 
 }

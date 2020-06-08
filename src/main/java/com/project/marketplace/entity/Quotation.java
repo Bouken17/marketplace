@@ -2,6 +2,7 @@ package com.project.marketplace.entity;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Quotation {
@@ -19,8 +20,12 @@ public class Quotation {
 	@Column
 	private String quantity;
 	@Column
-	private long postalCode;
-	@ManyToOne
+	private String postalCode;
+	@Column
+	private Date date;
+	@Column
+	private String locality;
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id")
 	private Product product;
 
@@ -64,11 +69,11 @@ public class Quotation {
 		return this.quantity;
 	}
 
-	public void setPostalCode(long postalCode) {
+	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
 
-	public long getPostalCode() {
+	public String getPostalCode() {
 		return this.postalCode;
 	}
 
@@ -86,5 +91,21 @@ public class Quotation {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 }

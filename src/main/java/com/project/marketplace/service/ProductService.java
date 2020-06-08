@@ -24,4 +24,13 @@ public class ProductService {
     public Product getProduct(long id) {
         return this.productRepository.findById(id).orElseThrow();
     }
+    public Product getMostView() {
+        return this.productRepository.findFirstByOrderByNombreVueDesc();
+    }
+    public Product incrementView(long id) {
+        Product product = this.getProduct(id);
+        product.setNombreVue(product.getNombreVue()+1);
+        return this.productRepository.save(product);
+    }
+
 }

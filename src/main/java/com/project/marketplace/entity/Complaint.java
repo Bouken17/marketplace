@@ -15,7 +15,7 @@ public class Complaint {
 	private String message;
 	@Column
 	private String email;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id")
 	private Product product;
 

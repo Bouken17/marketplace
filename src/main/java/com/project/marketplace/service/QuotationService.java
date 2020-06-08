@@ -1,5 +1,6 @@
 package com.project.marketplace.service;
 
+import com.project.marketplace.entity.Quotation;
 import com.project.marketplace.repository.QuotationRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class QuotationService {
 //        quotation.setProduct(productService.getAllProducts().get(0));
 //        this.addQuotation(quotation);
 //    }
-//    public Quotation addQuotation(Quotation quotation) {
-//        return this.quotationRepository.save(quotation);
-//    }
+    public Quotation addQuotation(Quotation quotation) {
+        return this.quotationRepository.save(quotation);
+    }
 }

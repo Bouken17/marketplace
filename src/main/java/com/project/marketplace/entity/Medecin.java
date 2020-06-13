@@ -19,7 +19,7 @@ public class Medecin {
 	private boolean admin = false;
 	@Column
 	private String tel;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "Speciality")
 	private Speciality speciality;
 	public void setPassword(String password) {

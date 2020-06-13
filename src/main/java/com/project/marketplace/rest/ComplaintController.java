@@ -3,13 +3,13 @@ package com.project.marketplace.rest;
 
 import com.google.gson.Gson;
 import com.project.marketplace.entity.Complaint;
+import com.project.marketplace.entity.Medecin;
 import com.project.marketplace.entity.Product;
 import com.project.marketplace.entity.Provider;
 import com.project.marketplace.service.ComplaintService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/complaint")
@@ -34,5 +34,21 @@ public class ComplaintController {
         Complaint complaint = new Gson().fromJson(data, Complaint.class);
         return this.complaintService.addComplaint(complaint);
     }
+
+    @GetMapping("getAll")
+    public List<Complaint> getAllComplaints() {
+        return this.complaintService.getAllComplaints();
+    }
+
+    @GetMapping("get/{id}")
+    public Complaint getComplaint(@PathVariable("id") long id) {
+        return this.complaintService.getComplaint(id);
+    }
+
+    @GetMapping("getAllOf/{id}")
+    public List<Complaint> getComplaintsOfProduct(@PathVariable("id") long id) {
+        return this.complaintService.getComplaintOfProduct(id);
+    }
+
 
 }

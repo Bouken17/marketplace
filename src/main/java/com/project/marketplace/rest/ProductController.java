@@ -48,6 +48,20 @@ public class ProductController {
     public Product getmostview() {
         return this.productService.getMostView();
     }
+    @GetMapping("researchTwoParams")
+    public List<Product> getResearchResult(@RequestParam("params") String[] params,@RequestParam("type") String type){
+        return this.productService.getResearchResult(params,type);
+    }
+
+    @GetMapping("research")
+    public List<Product> getResearchResult(@RequestParam("param") String param,@RequestParam("type") String type){
+        return this.productService.getResearchResult(param,type);
+    }
+
+    @GetMapping("researchAll")
+    public List<Product> getResearchResult(@RequestParam("params") String[] params){
+        return this.productService.getResearchResult(params);
+    }
 
     @PostMapping("increment")
     public Product increment(@RequestParam("data") String id) {

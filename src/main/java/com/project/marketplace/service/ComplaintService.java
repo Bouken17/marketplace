@@ -9,11 +9,11 @@ import java.util.List;
 @Service
 public class ComplaintService {
     private final ComplaintRepository complaintRepository;
-//    private final ProductService productService;
+    private final ProductService productService;
 
     public ComplaintService(ComplaintRepository complaintRepository, ProductService productService) {
         this.complaintRepository = complaintRepository;
-//        this.productService = productService;
+        this.productService = productService;
 //        this.initDB();
     }
 //    private void initDB() {
@@ -26,6 +26,9 @@ public class ComplaintService {
 //        this.addComplaint(complaint);
 //    }
 
+    public  List<Complaint> getAllComplaints(){ return  this.complaintRepository.findAll();}
+    public  Complaint getComplaint(long id){ return  this.complaintRepository.findById(id).orElseThrow();}
+    public  List<Complaint> getComplaintOfProduct(long id){ return  this.complaintRepository.findAllByProductEquals(this.productService.getProduct(id));}
     public Complaint addComplaint(Complaint complaint) {
         return this.complaintRepository.save(complaint);
     }

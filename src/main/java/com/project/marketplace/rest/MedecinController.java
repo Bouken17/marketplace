@@ -2,7 +2,9 @@ package com.project.marketplace.rest;
 
 import com.google.gson.Gson;
 import com.project.marketplace.entity.Medecin;
+import com.project.marketplace.entity.Speciality;
 import com.project.marketplace.service.MedecinService;
+import com.project.marketplace.service.SpecialityService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.List;
 @RequestMapping("/api/medecin")
 public class MedecinController {
     private final MedecinService medecinService;
+    private final SpecialityService specialityService;
 
-    public MedecinController(MedecinService medecinService) {
+    public MedecinController(MedecinService medecinService, SpecialityService specialityService) {
         this.medecinService = medecinService;
+        this.specialityService = specialityService;
     }
 
     @GetMapping("getAll")
@@ -47,8 +51,10 @@ public class MedecinController {
 //    }
 
     @PostMapping("add")
-    public Medecin increment(@RequestParam("data") String data) {
+    public Medecin addMedecin(@RequestParam("data") String data,@RequestParam("speciality") String speciality) {
+        Speciality speciality1 = this.specialityService.getSpeciality(Long.parseLong(speciality));
         Medecin medecin = new Gson().fromJson(data, Medecin.class);
+        medecin.setSpeciality(speciality1);
         return this.medecinService.addMedecin(medecin);
     }
 

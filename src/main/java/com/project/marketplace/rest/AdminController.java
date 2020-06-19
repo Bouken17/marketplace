@@ -53,5 +53,23 @@ public class AdminController {
         Admin.setPassword("");
         return Admin;
     }
+    @GetMapping("/blockproduct/{id}")
+    public boolean blockProduct(@PathVariable("id") long id){
+        return this.proxyAdmin.blockProduct(id);
+    }
+
+    @GetMapping("/activateproduct/{id}")
+    public boolean activateProduct(@PathVariable("id") long id){
+        return this.proxyAdmin.activateProduct(id);
+    }
+    @GetMapping("/blockprovider/{id}")
+    public boolean blockProvider(@PathVariable("id") long id){
+        return this.proxyAdmin.blockProvider(id);
+    }
+
+    @GetMapping("/activateprovider/{id}")
+    public boolean activateProvider(@PathVariable("id") long id){
+        return this.proxyAdmin.activateProvider(id);
+    }
 
 }

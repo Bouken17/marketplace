@@ -67,16 +67,14 @@ public class AdminService {
 
     }
     private void initDB() {
-        for(int j=0;j<1;j++){
-            Provider provider = new Provider();
-            provider.setFirstname("Provider " + ( j + 1 ) + " FirstName ");
-            provider.setLastname("Provider " + ( j + 1 ) + " LastName ");
-            provider.setEmail("Provider " + ( j + 1 ) + " Mail ");
-            provider.setPassword("Provider " + ( j + 1 ) + " Password ");
-            provider.setStatus(1);
-            provider.setType(true);
-            this.addProvider(provider);
-        }
+        Provider provider = new Provider();
+        provider.setFirstname("Provider  FirstName ");
+        provider.setLastname("Provider  LastName ");
+        provider.setEmail("tdrfygaz@ughzkajn.com ");
+        provider.setPassword("ytughknjlaz, ");
+        provider.setStatus(0);
+        provider.setType(false);
+        this.addProvider(provider);
     }
 
 
@@ -84,10 +82,21 @@ public class AdminService {
         return  this.providerRepository.save(provider);
     }
 
-    public boolean blockProduct(long product, long provider) {
+    public boolean blockProduct(long product) {
         Product product1 = this.productRepository.findById(product).orElseThrow();
         if(!product1.equals(null)){
             product1.setBlocked(true);
+            this.productRepository.save(product1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean activateProduct(long product) {
+        Product product1 = this.productRepository.findById(product).orElseThrow();
+        if(!product1.equals(null)){
+            product1.setBlocked(false);
+            this.productRepository.save(product1);
             return true;
         }
         return false;
@@ -97,6 +106,16 @@ public class AdminService {
         Provider provider1 = this.providerRepository.findById(provider).orElseThrow();
         if(!provider1.equals(null)){
             provider1.setStatus(-1);
+            this.providerRepository.save(provider1);
+            return true;
+        }
+        return false;
+    }
+    public boolean activateProvider(long provider) {
+        Provider provider1 = this.providerRepository.findById(provider).orElseThrow();
+        if(!provider1.equals(null)){
+            provider1.setStatus(1);
+            this.providerRepository.save(provider1);
             return true;
         }
         return false;

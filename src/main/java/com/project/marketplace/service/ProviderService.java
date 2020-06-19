@@ -1,17 +1,10 @@
 package com.project.marketplace.service;
 
-import com.project.marketplace.entity.Image;
-import com.project.marketplace.entity.Product;
-import com.project.marketplace.entity.Provider;
-import com.project.marketplace.entity.Speciality;
-import com.project.marketplace.repository.ProductRepository;
-import com.project.marketplace.repository.ProviderRepository;
-import com.project.marketplace.repository.SpecialityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.marketplace.entity.*;
+import com.project.marketplace.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProviderService {
@@ -19,14 +12,18 @@ public class ProviderService {
     private final ProviderRepository providerRepository;
     private final SpecialityRepository specialityRepository;
     private final ProductRepository productRepository;
+    private final ComplaintRepository  complaintRepository;
+    private final QuotationRepository quotationRepository;
 
-    public ProviderService(ProviderRepository providerRepository, SpecialityRepository specialityRepository, ProductRepository productRepository) {
+    public ProviderService(ProviderRepository providerRepository, SpecialityRepository specialityRepository, ProductRepository productRepository, ComplaintRepository complaintRepository, QuotationRepository quotationRepository) {
         this.providerRepository = providerRepository;
         this.specialityRepository = specialityRepository;
         this.productRepository = productRepository;
 //        this.initDB();
 //        this.updateDB();
 //        System.out.println(this.afficher(this.getAdmin()));
+        this.complaintRepository = complaintRepository;
+        this.quotationRepository = quotationRepository;
     }
 
     private void initDB() {
@@ -126,6 +123,42 @@ public class ProviderService {
         return products;
     }
 
+    public List<Product> getClaimedProducts(long id) {
+        List<Product> products = new ArrayList<Product>();
+        products =this.productRepository.findAllByProviderEquals(this.getProvider(id));
+        List<Complaint> complaints =new ArrayList<Complaint>();
+        for (Product product:products) {
+            complaints.addAll(this.complaintRepository.findAllByProductEquals(product));
+        }
+        Collections.sort(complaints, new Comparator<Complaint>() {
+            @Override
+            public int compare(Complaint o1, Complaint o2)
+            {
+                return (o1.getId() < o2.getId() ? -1 :
+                        (o1.getId() == o2.getId() ? 0 : 1));
+            }
+        });
+        return products;
+    }
+
+    public List<Product> getQuotations(long id) {
+        List<Product> products = new ArrayList<Product>();
+        products =this.productRepository.findAllByProviderEquals(this.getProvider(id));
+        List<Quotation> quotations =new ArrayList<Quotation>();
+        for (Product product:products) {
+            quotations.addAll(this.quotationRepository.findAllByProductEquals(product));
+        }
+        Collections.sort(quotations, new Comparator<Quotation>() {
+            @Override
+            public int compare(Quotation o1, Quotation o2)
+            {
+                return (o1.getId() < o2.getId() ? -1 :
+                        (o1.getId() == o2.getId() ? 0 : 1));
+            }
+        });
+        return products;
+    }
+
     public Product[] getOwnedProducts() {
         throw new UnsupportedOperationException();
     }
@@ -143,6 +176,22 @@ public class ProviderService {
 
     public List<Speciality> getAllSpecialitys() {
         return this.specialityRepository.findAll();
+    }
+    public List<Speciality> getAllSpecialitiesSuscribed() {
+        List<Provider> providers =  this.providerRepository.findAll();
+        List<Speciality> specialities = new ArrayList<>();
+        List<Speciality> specialities1 = new ArrayList<>();
+        for (Provider provider: providers) {
+            specialities.addAll(provider.getSpecialities());
+        }
+        for (Speciality speciality: specialities) {
+            if(!specialities1.contains(speciality))
+                specialities1.add(speciality);
+        }
+        return specialities1;
+    }
+    public List<Provider> getAllProviders() {
+        return this.providerRepository.findAll();
     }
 
 //    public boolean deleteSpeciality() {

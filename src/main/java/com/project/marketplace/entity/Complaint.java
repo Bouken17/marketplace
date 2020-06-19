@@ -1,6 +1,7 @@
 package com.project.marketplace.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Complaint {
@@ -15,6 +16,8 @@ public class Complaint {
 	private String message;
 	@Column
 	private String email;
+	@Column
+	private boolean vue;
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id")
 	private Product product;
@@ -67,7 +70,15 @@ public class Complaint {
 		this.product = product;
 	}
 
-	//	public int hashCode() {
+	public boolean isVue() {
+		return vue;
+	}
+
+	public void setVue(boolean vue) {
+		this.vue = vue;
+	}
+
+//	public int hashCode() {
 //		int lHashCode = 0;
 //		if ( this.objet != null ) {
 //			lHashCode += this.objet.hashCode();

@@ -37,6 +37,10 @@ public class ProviderController {
         return this.providerService.updateProfil(id,provider);
     }
 
+    @GetMapping("/getAllProviders")
+    public List<Provider> getAllproviders(){
+        return this.providerService.getAllProviders();
+    }
     @GetMapping("/getProfil/{id}")
     public Provider getPRovider(@Valid @PathVariable("id") long id){
         return this.providerService.getProvider(id);
@@ -104,9 +108,25 @@ public class ProviderController {
         return this.providerService.getProduct(id);
     }
 
+
+    @GetMapping("/getallspecialitiessuscribed")
+    public List<Speciality> getAllSpecialitiesSuscribed() {
+        return this.providerService.getAllSpecialitiesSuscribed();
+    }
+
     @GetMapping("/getownedproducts/{id}")
     public List<Product> getOwnedProducts(@Valid @PathVariable long id) {
         return this.providerService.getOwnedProducts(id);
+    }
+
+    @GetMapping("/getclaimedproducts/{id}")
+    public List<Product> getClaimedProducts(@Valid @PathVariable long id) {
+        return this.providerService.getClaimedProducts(id);
+    }
+
+    @GetMapping("/getquotations/{id}")
+    public List<Product> getQuotations(@Valid @PathVariable long id) {
+        return this.providerService.getQuotations(id);
     }
 
     @GetMapping("/specialities")

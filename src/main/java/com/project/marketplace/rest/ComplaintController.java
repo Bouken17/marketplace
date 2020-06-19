@@ -29,9 +29,17 @@ public class ComplaintController {
         complaint.setObjet(objet);
         return this.complaintService.addComplaint(complaint);
     }
+    @GetMapping("/setvue/{id}")
+    public Complaint setVue(@PathVariable("id") long id){
+        Complaint complaint = this.complaintService.getComplaint(id);
+        complaint.setVue(true);
+        return this.complaintService.addComplaint(complaint);
+    }
+
     @PostMapping("/add")
     public Complaint addComplaint(@RequestParam("Complaint") String data){
         Complaint complaint = new Gson().fromJson(data, Complaint.class);
+        complaint.setVue(false);
         return this.complaintService.addComplaint(complaint);
     }
 

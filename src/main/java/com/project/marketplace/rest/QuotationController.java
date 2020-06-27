@@ -2,10 +2,12 @@ package com.project.marketplace.rest;
 
 
 import com.google.gson.Gson;
+import com.project.marketplace.entity.Complaint;
 import com.project.marketplace.entity.Quotation;
 import com.project.marketplace.service.QuotationService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,14 +19,27 @@ public class QuotationController {
         this.quotationService = quotationService;
     }
     @PostMapping("/add")
-    public Quotation addComplaint(@RequestParam("quotation") String message){
+    public Quotation addQuotation(@RequestParam("quotation") String message){
         Quotation quotation = new Gson().fromJson(message, Quotation.class);
+        quotation.setDate(new Date());
         return this.quotationService.addQuotation(quotation);
     }
 
     @GetMapping("getAll")
-    public List<Quotation> getAllComplaints() {
+    public List<Quotation> getAllQuotations() {
         return this.quotationService.getAllQuotations();
+    }
+
+    @GetMapping("/traiter/{id}")
+    public Quotation traiter(@PathVariable("id") long id){
+        Quotation quotation = this.quotationService.getQuotation(id);
+        quotation.setTraiter(true);
+        return this.quotationService.addQuotation(quotation);
+    }
+
+    @GetMapping("getalltoprovider/{login}")
+    public List<Quotation> getalltoprovides(@PathVariable("login") String login) {
+        return this.quotationService.getAllQuotationstoProviders(login);
     }
 
     @GetMapping("get/{id}")

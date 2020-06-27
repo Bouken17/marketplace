@@ -26,7 +26,7 @@ public class ImageStorageService {
                 throw new ImageStorageException("Sorry! Filename contains invalid path sequence " + imageName);
             }
             try {
-                this.fileStorageLocation = Paths.get(this.pathFirstPart+"/"+product.getProvider().getId()+"/"+product.getId()).toAbsolutePath().normalize();
+                this.fileStorageLocation = Paths.get(this.pathFirstPart+"/images/"+product.getProvider().getId()+"/"+product.getId()).toAbsolutePath().normalize();
                 Files.createDirectories(this.fileStorageLocation);
             } catch (Exception ex) {
                 throw new ImageStorageException("Could not create the directory where the uploaded file will be stored.", ex);
@@ -36,6 +36,25 @@ public class ImageStorageService {
             return imageName;
         } catch (IOException ex) {
             throw new ImageStorageException("Could not store file " + imageName + ". Please try again!", ex);
+        }
+    }
+    public String storeCatalogue(MultipartFile Catalogue, Product product) {
+        String CatalogueName = StringUtils.cleanPath(Catalogue.getOriginalFilename());
+        try {
+            if(CatalogueName.contains("..")) {
+                throw new ImageStorageException("Sorry! Filename contains invalid path sequence " + CatalogueName);
+            }
+            try {
+                this.fileStorageLocation = Paths.get(this.pathFirstPart+"/catalogues/"+product.getProvider().getId()+"/"+product.getId()).toAbsolutePath().normalize();
+                Files.createDirectories(this.fileStorageLocation);
+            } catch (Exception ex) {
+                throw new ImageStorageException("Could not create the directory where the uploaded file will be stored.", ex);
+            }
+            Path targetLocation = this.fileStorageLocation.resolve(CatalogueName);
+            Files.copy(Catalogue.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            return CatalogueName;
+        } catch (IOException ex) {
+            throw new ImageStorageException("Could not store file " + CatalogueName + ". Please try again!", ex);
         }
     }
 }

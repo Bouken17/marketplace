@@ -1,6 +1,7 @@
 package com.project.marketplace.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Medecin {
@@ -13,6 +14,8 @@ public class Medecin {
 	private String prenom;
 	@Column
 	private String password;
+	@Column
+	private Date date;
 	@Column
 	private String email;
 	@Column
@@ -37,6 +40,15 @@ public class Medecin {
 	public String getEmail() {
 		return this.email;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 
 	public long getId() {
 		return id;

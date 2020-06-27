@@ -17,6 +17,8 @@ public class Complaint {
 	@Column
 	private String email;
 	@Column
+	private Date date;
+	@Column
 	private boolean vue;
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id")
@@ -36,6 +38,14 @@ public class Complaint {
 
 	public String getObjet() {
 		return this.objet;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public void setMessage(String message) {

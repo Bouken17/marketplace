@@ -3,6 +3,7 @@ package com.project.marketplace.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,8 @@ public class Provider {
     private String tel;
     @Column
     private int status;
+    @Column
+    private Date date;
     @Column
     private boolean type;
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -94,6 +97,15 @@ public class Provider {
     public String getEmail() {
         return this.email;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
 
     public void setPassword(String password) {
         this.password = password;

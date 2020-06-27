@@ -9,6 +9,7 @@ import com.project.marketplace.entity.Provider;
 import com.project.marketplace.service.ComplaintService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,7 @@ public class ComplaintController {
         complaint.setEmail(email);
         complaint.setMessage(message);
         complaint.setObjet(objet);
+        complaint.setDate(new Date());
         return this.complaintService.addComplaint(complaint);
     }
     @GetMapping("/setvue/{id}")
@@ -40,12 +42,18 @@ public class ComplaintController {
     public Complaint addComplaint(@RequestParam("Complaint") String data){
         Complaint complaint = new Gson().fromJson(data, Complaint.class);
         complaint.setVue(false);
+        complaint.setDate(new Date());
         return this.complaintService.addComplaint(complaint);
     }
 
     @GetMapping("getAll")
     public List<Complaint> getAllComplaints() {
         return this.complaintService.getAllComplaints();
+    }
+
+    @GetMapping("getOwnedComplaint/{login}")
+    public List<Complaint> getOwnedComplaint(@PathVariable("login") String login) {
+        return this.complaintService.getOwnedComplaint(login);
     }
 
     @GetMapping("get/{id}")

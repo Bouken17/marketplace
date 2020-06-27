@@ -43,6 +43,12 @@ public class ImageController {
         return image.getPath();
     }
 
+    @PostMapping("/uploadCatalogue/{id}")
+    public String uploadCatalogue(@PathVariable("product") Product product, @RequestParam("file") MultipartFile file) {
+        String fileName = imageStorageService.storeCatalogue(file,product);
+        return "http://localhost:8080/catalogues/"+product.getProvider().getId()+"/"+product.getId()+"/" + file.getOriginalFilename();
+    }
+
 //    @PostMapping("/upload-multiple-images")
     @PostMapping("/upload-multiple-images/{id}")
     @ResponseBody

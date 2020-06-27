@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @RestController
 @RequestMapping("/api/provider")
@@ -45,12 +48,21 @@ public class ProviderController {
     public Provider getPRovider(@Valid @PathVariable("id") long id){
         return this.providerService.getProvider(id);
     }
-    @PostMapping("/addproduct/{id}")
-    public Product addProduct(@PathVariable("id") long id, @RequestParam("product") String productStr,@RequestParam("images") MultipartFile[] images) {
+    @GetMapping("/getProfilData/{login}")
+    public Provider getProfilData(@Valid @PathVariable("login") String login){
+        return this.providerService.getProvider(this.providerService.getProviderByEmail(login).getId());
+    }
+    @GetMapping("/getownedproductsbylogin/{login}")
+    public List<Product> getownedproductsbylogin(@Valid @PathVariable("login") String login){
+        return this.getOwnedProducts(this.providerService.getProviderByEmail(login).getId());
+    }
+    @PostMapping("/addproduct/{login}")
+    public Product addProduct(@PathVariable("login") String login, @RequestParam("product") String productStr,@RequestParam("images") MultipartFile[] images,@RequestParam("catalogue") MultipartFile catalogue) {
         Product product = new Gson().fromJson(productStr, Product.class);
-//        System.out.println(getPRovider(id).getFirstname());
-        product.setProvider(getPRovider(id));
+        product.setProvider(this.providerService.getProviderByEmail(login));
         Product product1= this.providerService.addProduct(product);
+        this.imageStorageService.storeCatalogue(catalogue,product1);
+        product1.setCatalogue(this.imageController.uploadCatalogue(product1,catalogue));
         List<Image> liste=Image.convertToImage(images,product1);
         List<Image> temp=new ArrayList<Image>();
         for(int i=0;i<liste.size();i++)
@@ -71,6 +83,69 @@ public class ProviderController {
         return product3;
     }
 
+    @PutMapping("/updateproduct")
+    public Product updateProduct(@RequestParam("product") String productStr,@RequestParam("images") MultipartFile[] images,@RequestParam("catalogue") MultipartFile catalogue) {
+        Product product = new Gson().fromJson(productStr, Product.class);
+      /*  StringTokenizer st = new StringTokenizer(product.getCatalogue(),"http://localhost:8080/catalogues/");
+        st.nextToken();
+        String chaine = st.nextToken();
+        StringTokenizer st1 = new StringTokenizer(chaine,"/");
+        st.nextToken();
+        st.nextToken();
+        String catalogueName = st.nextToken();
+        if(!catalogue.equals(null) && (catalogue.getOriginalFilename()!=catalogueName)){
+            this.imageStorageService.storeCatalogue(catalogue,product);
+            product.setCatalogue(this.imageController.uploadCatalogue(product,catalogue));
+        }
+        if(!images.equals(null)) {
+            List<Image> liste=Image.convertToImage(images,product);
+            List<Image> temp=new ArrayList<Image>();
+            for(int i=0;i<liste.size();i++)
+                temp.add(new Image());
+            product.setImages(temp);
+            Product product1= this.providerService.updateProduct(product.getId(),product);
+            for (int i=0;i<liste.size();i++) {
+                liste.get(i).setId(product1.getImages().get(i).getId());
+            }
+            for (Image image: liste) {
+                this.imageService.updateImage(image);
+            }
+            Product product2= this.providerService.getProduct(product1.getId());
+            for ( MultipartFile image: images) {
+                this.imageStorageService.storeImage(image,product);
+            }
+            this.imageController.uploadMultipleFiles(product2,images);
+            return product2;
+        }
+        */
+        if(!catalogue.equals(null)){
+            this.imageStorageService.storeCatalogue(catalogue,product);
+            product.setCatalogue(this.imageController.uploadCatalogue(product,catalogue));
+        }
+        if(!images.equals(null)) {
+            List<Image> liste=Image.convertToImage(images,product);
+            List<Image> temp=new ArrayList<Image>();
+            for(int i=0;i<liste.size();i++)
+                temp.add(new Image());
+            product.setImages(temp);
+            Product product1= this.providerService.updateProduct(product.getId(),product);
+            for (int i=0;i<liste.size();i++) {
+                liste.get(i).setId(product1.getImages().get(i).getId());
+            }
+            for (Image image: liste) {
+                this.imageService.updateImage(image);
+            }
+            Product product2= this.providerService.getProduct(product1.getId());
+            for ( MultipartFile image: images) {
+                this.imageStorageService.storeImage(image,product);
+            }
+            this.imageController.uploadMultipleFiles(product2,images);
+            return product2;
+        }
+        return
+        this.providerService.updateProduct(product.getId(),product);
+    }
+
     @PostMapping("/register")
     public Provider register(@RequestParam("data") String data,@RequestParam("specialities") String[] specialities,
                             @RequestParam("society") String society ) {
@@ -89,16 +164,12 @@ public class ProviderController {
         if(specialities1.size()>0){
             provider.setSpecialities(specialities1);
         }
+        provider.setDate(new Date());
         return this.adminService.addProvider(provider);
     }
 
 
-    @PutMapping("/updateproduct")
-    public Product updateProduct(@Valid @PathVariable long idProduct, @Valid @RequestBody Product newProduct) {
-        return this.providerService.updateProduct(idProduct,newProduct);
-    }
-
-    @DeleteMapping("/deleteproduct")
+    @DeleteMapping("/deleteproduct/{id}")
     public boolean deleteProduct(@Valid @PathVariable long id) {
         return  this.providerService.deleteProduct(id);
     }

@@ -4,6 +4,7 @@ import com.project.marketplace.entity.Medecin;
 import com.project.marketplace.repository.MedecinRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,7 +38,7 @@ public class MedecinService {
         return this.MedecinRepository.findByEmailEquals(login);
     }
     public Medecin addMedecin(Medecin medecin){
-
+        medecin.setDate(new Date());
         return this.MedecinRepository.save(medecin);
     }
     public List<Medecin> getAllMedecins(){

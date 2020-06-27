@@ -24,6 +24,8 @@ public class Quotation {
 	@Column
 	private Date date;
 	@Column
+	private boolean traiter;
+	@Column
 	private String locality;
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id")
@@ -107,5 +109,13 @@ public class Quotation {
 
 	public void setLocality(String locality) {
 		this.locality = locality;
+	}
+
+	public boolean isTraiter() {
+		return traiter;
+	}
+
+	public void setTraiter(boolean traiter) {
+		this.traiter = traiter;
 	}
 }

@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 @RestController
 @RequestMapping("/api/provider")
@@ -35,9 +33,32 @@ public class ProviderController {
         this.specialityService = specialityService;
     }
 
-    @PutMapping("/updateProfil")
-    public boolean updateProfil(@Valid @PathVariable long id, @Valid @RequestBody Provider provider) {
-        return this.providerService.updateProfil(id,provider);
+    @PutMapping("/updateProfil/{login}")
+    public Provider updateProfil( @PathVariable("login") String login, @RequestParam("provider") String provider,
+                                  @RequestParam("specialities") String[] specialities,@RequestParam("society") String society) {
+        Provider provider1 = new Gson().fromJson(provider, Provider.class);
+        List<Speciality> specialities1 = new ArrayList<>();
+        for (String speciality: specialities) {
+            specialities1.add(new Gson().fromJson(speciality, Speciality.class));
+        }
+        if(!society.equals("")){
+            Society society1 = new Gson().fromJson(society, Society.class);
+            Society society2 = this.providerService.getProviderByEmail(login).getSociety();
+            if (society2!=null)
+                society1.setId(society2.getId());
+            provider1.setSociety(society1);
+            provider1.setType(true);
+        }else {
+            provider1.setType(false);
+        }
+        if(specialities1.size()>0){
+            List<Speciality> specialities2 = new ArrayList<>();
+            for (Speciality speciality:specialities1) {
+                specialities2.add(this.getSpeciality(speciality.getId()));
+            }
+            provider1.setSpecialities(specialities2);
+        }
+        return this.providerService.updateProfil(this.providerService.getProviderByEmail(login).getId(),provider1);
     }
 
     @GetMapping("/getAllProviders")
@@ -46,7 +67,9 @@ public class ProviderController {
     }
     @GetMapping("/getProfil/{id}")
     public Provider getPRovider(@Valid @PathVariable("id") long id){
-        return this.providerService.getProvider(id);
+            Provider provider = this.providerService.getProvider(id);
+        provider.setPassword("");
+        return provider;
     }
     @GetMapping("/getProfilData/{login}")
     public Provider getProfilData(@Valid @PathVariable("login") String login){
@@ -86,38 +109,6 @@ public class ProviderController {
     @PutMapping("/updateproduct")
     public Product updateProduct(@RequestParam("product") String productStr,@RequestParam("images") MultipartFile[] images,@RequestParam("catalogue") MultipartFile catalogue) {
         Product product = new Gson().fromJson(productStr, Product.class);
-      /*  StringTokenizer st = new StringTokenizer(product.getCatalogue(),"http://localhost:8080/catalogues/");
-        st.nextToken();
-        String chaine = st.nextToken();
-        StringTokenizer st1 = new StringTokenizer(chaine,"/");
-        st.nextToken();
-        st.nextToken();
-        String catalogueName = st.nextToken();
-        if(!catalogue.equals(null) && (catalogue.getOriginalFilename()!=catalogueName)){
-            this.imageStorageService.storeCatalogue(catalogue,product);
-            product.setCatalogue(this.imageController.uploadCatalogue(product,catalogue));
-        }
-        if(!images.equals(null)) {
-            List<Image> liste=Image.convertToImage(images,product);
-            List<Image> temp=new ArrayList<Image>();
-            for(int i=0;i<liste.size();i++)
-                temp.add(new Image());
-            product.setImages(temp);
-            Product product1= this.providerService.updateProduct(product.getId(),product);
-            for (int i=0;i<liste.size();i++) {
-                liste.get(i).setId(product1.getImages().get(i).getId());
-            }
-            for (Image image: liste) {
-                this.imageService.updateImage(image);
-            }
-            Product product2= this.providerService.getProduct(product1.getId());
-            for ( MultipartFile image: images) {
-                this.imageStorageService.storeImage(image,product);
-            }
-            this.imageController.uploadMultipleFiles(product2,images);
-            return product2;
-        }
-        */
         if(!catalogue.equals(null)){
             this.imageStorageService.storeCatalogue(catalogue,product);
             product.setCatalogue(this.imageController.uploadCatalogue(product,catalogue));
@@ -206,7 +197,7 @@ public class ProviderController {
     }
 
     @GetMapping("/speciality/{id}")
-    public Speciality getAllSpeciality(@PathVariable("id") long id) {
+    public Speciality getSpeciality(@PathVariable("id") long id) {
         return this.specialityService.getSpeciality(id);
     }
 }

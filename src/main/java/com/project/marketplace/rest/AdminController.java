@@ -47,6 +47,14 @@ public class AdminController {
             return true;
         return false;
     }
+    @PutMapping("/updateAdmin")
+    public Provider updateAdmin(@Valid @RequestParam("admin") String adminData) {
+        Provider admin = new Gson().fromJson(adminData, Provider.class); ;
+        Provider admin1 = this.providerService.getAdmin();
+        admin.setId(admin1.getId());
+        admin.setPassword(admin1.getPassword());
+        return this.providerService.updateProfil(admin1.getId(),admin);
+    }
     @GetMapping("/getAdmin")
     public Provider getAdmin(){
         Provider Admin = this.providerService.getAdmin();

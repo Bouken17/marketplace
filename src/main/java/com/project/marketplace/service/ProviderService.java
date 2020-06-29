@@ -63,14 +63,13 @@ public class ProviderService {
 //        return this.providerRepository.findFirstByAdminEquals(true);
 //    }
 
-    public boolean updateProfil(long id, Provider provider) {
+    public Provider updateProfil(long id, Provider provider) {
         Provider provider1 = this.providerRepository.findById(provider.getId()).orElseThrow();
         if (!provider1.equals(null)){
             provider.setId(id);
-            this.providerRepository.save(provider);
-            return true;
+            provider1 = this.providerRepository.save(provider);
         }
-        return false;
+        return provider1;
     }
 
 

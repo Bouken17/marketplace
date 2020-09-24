@@ -14,10 +14,10 @@ public class Date_Quotation {
 	private String locality;
 	@OneToOne
 	@JoinColumn(name = "quotation_id")
-    Quotation quotation;
+	Quotation quotation;
 	@OneToOne
 	@JoinColumn(name = "product_id")
-    Product product;
+	Product product;
 
 	public long getId() {
 		return id;

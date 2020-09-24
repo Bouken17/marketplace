@@ -17,32 +17,31 @@ public class ProxyAdmin {
     }
 
     public boolean addProvider(Provider provider) {
-        if(this.provider.isAdmin())
-            return this.adminService.addProvider(provider);
+        Provider provider1= this.adminService.addProvider(provider);
+        if(provider1!=null)
+            return true;
         return false;
     }
 
-    public boolean blockProduct(long product, long provider) {
-        if(this.provider.isAdmin())
-            return this.adminService.blockProduct(product, provider);
-        return false;
+    public boolean blockProduct(long product) {
+        return this.adminService.blockProduct(product);
+    }
+    public boolean activateProduct(long product) {
+        return this.adminService.activateProduct(product);
     }
 
     public boolean blockProvider(long provider) {
-        if(this.provider.isAdmin())
-            return this.adminService.blockProvider(provider);
-        return false;
+        return this.adminService.blockProvider(provider);
+    }
+    public boolean activateProvider(long provider) {
+        return this.adminService.activateProvider(provider);
     }
 
     public boolean addSpeciality(Speciality speciality) {
-        if(this.provider.isAdmin())
-            return this.adminService.addSpeciality(speciality);
-        return false;
+        return this.adminService.addSpeciality(speciality);
     }
 
     public boolean deleteSpeciality(long id) {
-        if(this.provider.isAdmin())
-            return this.adminService.deleteSpeciality(id);
-        return false;
+        return this.adminService.deleteSpeciality(id);
     }
 }

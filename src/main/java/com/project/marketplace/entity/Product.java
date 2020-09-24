@@ -27,7 +27,7 @@ public class Product {
 	private String marque;
 	@Column
 	private boolean blocked=false;
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "provider_id")
 	private Provider provider;
 	@OneToMany(cascade = CascadeType.PERSIST)
@@ -35,7 +35,9 @@ public class Product {
 	private List<Image> images;
 //	ArrayList<Complaint> reclamer = new ArrayList<Complaint>();
 //	ArrayList<Date_Quotation> date_Quotation = new ArrayList<Date_Quotation>();
-//	Speciality appartenir;
+	@ManyToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "speciality")
+	private Speciality speciality;
 //	Provider provider;
 
 

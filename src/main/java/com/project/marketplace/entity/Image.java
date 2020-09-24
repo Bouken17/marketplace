@@ -16,20 +16,20 @@ public class Image {
 	@Column
 	private String path;
 	public Image(){}
-	public Image(MultipartFile file, String name,long id){
+	public Image(MultipartFile file,Product product){
 		this.setName(file.getOriginalFilename());
-		this.setPath("http://localhost:8080/images/"+id+"/"+name+"/" + file.getOriginalFilename());
+		this.setPath("http://localhost:8080/images/"+product.getProvider().getId()+"/"+product.getId()+"/" + file.getOriginalFilename());
 	}
 
-	public List<Image> convertToImage(MultipartFile[] Files, String name, long id){
+	public static List<Image> convertToImage(MultipartFile[] Files, Product product){
 		List<Image> images= new ArrayList<Image>();
 		for ( MultipartFile file: Files) {
-			images.add(new Image(file,name,id));
+			images.add(new Image(file,product));
 		}
-		System.out.println("Convert to Image");
-		for ( Image image: images) {
-			System.out.println(image.getPath());
-		}
+//		System.out.println("Convert to Image");
+//		for ( Image image: images) {
+//			System.out.println(image.getPath());
+//		}
 		return images;
 	}
 

@@ -26,6 +26,6 @@
         max-file-size: 5MB
         max-request-size: 7MB
 
-  image.upload-dir: ./src/main/resources/static/images
+  image.upload-dir: ./src/main/resources/static
   #C:/Users/lenovo/IdeaProjects/client-api/src/main/resources/static/uploads
   # spring.datasource.username = <yourUserName>

@@ -1,7 +1,12 @@
 package com.project.marketplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Provider {
@@ -24,15 +29,46 @@ public class Provider {
     @Column
     private int status;
     @Column
+    private Date date;
+    @Column
     private boolean type;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "Society")
     private Society Society;
-//    ArrayList<Product> product = new ArrayList<Product>();
-    @JoinColumn(name = "Specialities")
-    @OneToMany
-    List<Speciality> Specialities;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(name = "Provider_Speciality",
+            joinColumns = {
+                    @JoinColumn(name = "speciality_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "provider_id", referencedColumnName = "id",
+                            nullable = false, updatable = false)})
+    private List<Speciality> Specialities;
+
+    //    ArrayList<Product> product = new ArrayList<Product>();
+
+//    @JoinTable(name = "providers", joinColumns = @JoinColumn(name = "provider_id"),
+//            inverseJoinColumns = @JoinColumn(name = "speciality_id"))
+//    List<Speciality> Specialities;
 //    AbstractAdmin abstractAdmin;
 
+
+    public com.project.marketplace.entity.Society getSociety() {
+        return Society;
+    }
+
+    public void setSociety(com.project.marketplace.entity.Society society) {
+        Society = society;
+    }
+
+    public List<Speciality> getSpecialities() {
+        return Specialities;
+    }
+
+    public void setSpecialities(List<Speciality> specialities) {
+        Specialities = specialities;
+    }
 
     public void setId(long id) { this.id = id; }
 
@@ -61,6 +97,15 @@ public class Provider {
     public String getEmail() {
         return this.email;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -108,14 +153,6 @@ public class Provider {
 
     public void setAppartenir(Society appartenir) {
         this.Society = appartenir;
-    }
-
-    public List<Speciality> getSpecialities() {
-        return Specialities;
-    }
-
-    public void setSpecialities(List<Speciality> specialities) {
-        Specialities = specialities;
     }
 
 }
